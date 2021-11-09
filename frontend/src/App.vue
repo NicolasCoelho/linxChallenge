@@ -1,7 +1,16 @@
 <template>
   <div>
     <header>
-      <Nav/>
+     <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <router-link class="nav-link" to="/">Home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/produtos">Produtos</router-link>
+          </li>
+        </ul>
+      </nav>
     </header>
     <main>
       <router-view/>
@@ -10,7 +19,7 @@
 </template>
 
 <script>
-import Nav from './components/Nav.vue';
+
 
 export default {
   data(){
@@ -18,7 +27,7 @@ export default {
       
     }
   },
-  components: [Nav]
+  components: []
 }
 </script>
 
