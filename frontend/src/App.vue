@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-     <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light justify-content-center justify-content-lg-start">
+     <nav class="container-fluid navbar navbar-expand-sm navbar-light bg-light justify-content-center justify-content-lg-start">
         <ul class="navbar-nav align-items-center">
           <li class="nav-item">
             <img src="/favicon.ico" width="30" class="nav-icon">
