@@ -1,9 +1,12 @@
 <template>
   <div>
     <header>
-     <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
+     <nav class="container-fluid navbar navbar-expand-lg navbar-light bg-light justify-content-center justify-content-lg-start">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item">
+            <img src="/favicon.ico" width="30" class="nav-icon">
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" to="/">Home</router-link>
           </li>
           <li class="nav-item">
@@ -32,5 +35,5 @@ export default {
 </script>
 
 <style>
-
+ 
 </style>
