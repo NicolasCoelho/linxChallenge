@@ -56,26 +56,24 @@
 </template>
 
 <script>
+import ws from '../services/ws'
+
 export default {
     data() {
         return {
-            products: [
-                {
-                    id: 1,
-                    name: 'Relógio',
-                    price: '49,90',
-                    code: '985719847102',
-                }
-            ]
+            products: []
         }
     },
     methods: {
-        edit: (id) => {
-            alert(id)
+        edit: function(id) {
+            this.$router.push({name: 'EditProduct', params: {id}});
         },
-        remove: (id) => {
+        remove: function(id) {
             alert(id)
         }
+    },
+    beforeMount: async function (params) {
+        this.products = await ws.getProducts()
     }
 }
 </script>
