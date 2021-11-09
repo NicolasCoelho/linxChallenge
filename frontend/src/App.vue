@@ -29,11 +29,6 @@ export default {
     return {
       
     }
-  },
-  components: []
+  }
 }
 </script>
-
-<style>
- 
-</style>

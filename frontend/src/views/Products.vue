@@ -1,5 +1,5 @@
 <template>
-    <section class="container-fluid produtcsPage">
+    <section class="container-fluid p-4">
         <div class="row">
             <div class="col-12 col-lg-10 d-flex">
                 <input placeholder="Pesquisar" class="w-75 form-control">
@@ -9,7 +9,7 @@
                 </select>
             </div>
             <div class="col-12 col-lg-2">
-                <button class="btn btn-primary w-100">Adicionar <i class="fas fa-plus"></i> </button>
+                <router-link class="btn btn-primary w-100" to="/produtos/novo">Adicionar <i class="fas fa-plus"></i> </router-link>
             </div>
         </div>
         <div class="row py-3">
@@ -81,9 +81,6 @@ export default {
 </script>
 
 <style scoped>
-    .produtcsPage {
-        padding: 40px;
-    }
     .center {
         text-align: center;
     }
