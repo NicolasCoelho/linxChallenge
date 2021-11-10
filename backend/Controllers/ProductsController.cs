@@ -18,52 +18,53 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Products> GetAll()
+        public  ActionResult<IEnumerable<Products>> GetAll()
         {
-            return Enumerable.Range(1, 5).Select(index => new Products
+            return Ok(Enumerable.Range(1, 5).Select(index => new Products
             {
                 name = "Relogio",
                 code = "12313212",
                 price = 10000,
-                image = ""
+                image = "",
+                createdAt = new DateTime()
             })
-            .ToArray();
+            .ToArray());
         }
 
         [HttpGet("{id}")]
-        public Products GetOne()
+        public ActionResult<Products> GetOne()
         {
-            return new Products
+            return Ok(new Products
             {
                 name = "Relogio",
                 code = "12313212",
                 price = 10000,
                 image = ""
-            };
+            });
         }
 
         [HttpPut("{id}")]
-        public Products ChangeOne()
+        public ActionResult<Products> ChangeOne()
         {
-            return new Products
+            return Ok(new Products
             {
                 name = "Relogio",
                 code = "12313212",
                 price = 10000,
                 image = ""
-            };
+            });
         }
 
         [HttpDelete("{id}")]
-        public Products DeleteOne()
+        public ActionResult<Products> DeleteOne()
         {
-            return new Products
+            return Ok(new Products
             {
                 name = "Relogio",
                 code = "12313212",
                 price = 10000,
                 image = ""
-            };
+            });
         }
     }
 }
