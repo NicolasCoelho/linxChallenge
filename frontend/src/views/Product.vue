@@ -1,6 +1,6 @@
 <template>
     <section class="py-4 px-5">
-        <div class="row" v-if="$route.params.id">
+        <div class="row" v-if="isEdit">
             <b class="text-center">{{ $route.params.id }}</b>
         </div>
         <div class="row justify-content-center">
@@ -23,7 +23,7 @@
                         <input type="file" class="form-control" id="image">
                     </div>
                     <div class="text-center w-100 py-4">
-                        <button type="button" class="btn btn-success">Salvar</button>
+                        <button type="button" class="btn btn-success" v-on:click="save()">Salvar</button>
                     </div>
                 </form>
             </div>
@@ -37,18 +37,42 @@ import ws from '../services/ws'
 export default {
     data() {
         return {
+            isEdit: this.$route.params.id !== undefined,
             product: {
+                id: 0,
                 name: '',
                 code: '',
                 price: '',
-                image: ''
+                image: 'https://',
+                createdAt: ''
             }
         }
     },
     beforeMount: async function() {
-        if (this.$route.params.id) {
+        if (this.isEdit) {
             this.product = await ws.getProduct(this.$route.params.id);
         }   
+    },
+    methods: {
+        save: async function() {
+            try {
+                let payload = new Object()
+                Object.assign(payload, this.product)
+                delete payload.id
+                delete payload.createdAt
+                if (this.isEdit) {
+                    await ws.changeProduct(this.product.id, payload)
+                    alert("Produto Alterado com sucesso")
+                } else {
+                    await ws.postProduct(payload)
+                    alert("Produto criado com sucesso")
+                    this.$router.push({name: 'Products'})
+                }  
+            } catch (error) {
+                console.error(error)
+                alert("Erro inesperado. Tente novamente mais tarde!")
+            }
+        }
     }
 }
 </script>

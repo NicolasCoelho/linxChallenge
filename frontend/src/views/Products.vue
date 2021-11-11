@@ -66,10 +66,16 @@ export default {
     },
     methods: {
         edit: function(id) {
-            this.$router.push({name: 'EditProduct', params: {id}});
+            this.$router.push({name: 'EditProduct', params: {id}})
         },
-        remove: function(id) {
-            alert(id)
+        remove: async function(id) {
+            try {
+                await ws.removeProduct(id)
+                this.products = await ws.getProducts()
+                alert("Produto excluído com sucesso!")
+            } catch (error) {
+                alert("Erro inesperado. Tente novamente mais tarde!")
+            }
         }
     },
     beforeMount: async function (params) {
