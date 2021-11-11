@@ -70,13 +70,13 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<Products> DeleteOne(int id, Products product)
+        public ActionResult DeleteOne(int id)
         {
+            var product = Context.Products.FirstOrDefault(p => p.id == id);
             if(product == null) {
-                throw new ArgumentNullException(nameof(product));
+                throw new ArgumentNullException(nameof(id));
             }
             Context.Products.Remove(product);
-            
             Context.SaveChanges();
 
             return NoContent();
