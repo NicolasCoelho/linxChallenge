@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.Models
+namespace backend.Mappers
 {
-    public class Products
+    public class ProductsReadMapper
     {
         [Key]
         public int id { get; set; }

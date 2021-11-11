@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using backend.Data;
+using backend.Mappers;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace backend.Controllers
 {
@@ -15,49 +16,57 @@ namespace backend.Controllers
     {
 
         private readonly BackendContext Context;
+        private readonly IMapper Mapper;
 
-        public ProductsController(BackendContext context) {
+        public ProductsController(BackendContext context, IMapper mapper) {
             Context = context;
+            Mapper = mapper;
         }
 
         [HttpGet]
-        public  ActionResult<IEnumerable<Products>> GetAll()
+        public  ActionResult<IEnumerable<ProductsReadMapper>> GetAll()
         {
-            return Ok(Context.Products.ToList());
+            var list = Context.Products.ToList(); 
+
+            return Ok( Mapper.Map<IEnumerable<ProductsReadMapper>>(list) );
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Products> GetOne(int id)
+        public ActionResult<ProductsReadMapper> GetOne(int id)
         {
             var product =  Ok(Context.Products.FirstOrDefault( product => product.id == id));
             if(product != null) {
-                return product;
+                return Ok( Mapper.Map<ProductsReadMapper>(product) );
             }
             return NotFound();
         }
 
         [HttpPost]
-        public ActionResult CreateOne(Products product)
+        public ActionResult<ProductsCreateMapper> CreateOne(ProductsCreateMapper mapperProduct)
         {
-            if (product == null) {
+            if (mapperProduct == null) {
                 throw new ArgumentNullException();
             }
-            product.createdAt = DateTime.Now;
 
-            Context.Add(product);
+            var product = Mapper.Map<Products>(mapperProduct);
+
+            Context.Products.Add(product);
             Context.SaveChanges();
 
             return Ok(product);
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Products> ChangeOne(int id, Products product)
+        public ActionResult<ProductsUpdateMapper> ChangeOne(int id, ProductsUpdateMapper mapperProduct)
         { 
+
+            var product = Mapper.Map<Products>(mapperProduct);
+
             Context.Products.Update(product);
 
             Context.SaveChanges();
 
-            return Ok();
+            return Ok(product);
         }
 
         [HttpDelete("{id}")]
@@ -70,7 +79,7 @@ namespace backend.Controllers
             
             Context.SaveChanges();
 
-            return Ok();
+            return NoContent();
         }
     }
 }
