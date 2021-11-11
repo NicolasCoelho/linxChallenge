@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using backend.Data;
+using backend.Interfaces;
 using backend.Mappers;
 using backend.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace backend.Controllers
         }
 
         [HttpGet()]
-        public  ActionResult<IEnumerable<Products>> GetAll(int page = 1, string ?target = null, string ?type = "name", string ?priceOrder = null)
+        public  ActionResult<IProductsPagination> GetAll(int page = 1, string ?target = null, string ?type = "name", string ?priceOrder = null)
         {
 
             var query = (from Products in Context.Products select Products);
