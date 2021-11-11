@@ -23,12 +23,35 @@ namespace backend.Controllers
             Mapper = mapper;
         }
 
-        [HttpGet]
-        public  ActionResult<IEnumerable<ProductsReadMapper>> GetAll()
+        [HttpGet()]
+        public  ActionResult<IEnumerable<Products>> GetAll(int page = 1, string ?target = null, string ?type = "name", string ?priceOrder = null)
         {
-            var list = Context.Products.ToList(); 
 
-            return Ok( Mapper.Map<IEnumerable<ProductsReadMapper>>(list) );
+            var query = (from Products in Context.Products select Products);
+
+            if (!string.IsNullOrEmpty(target)) {
+                if (type == "name") {
+                    query = query.Where(p => p.name.Contains(target));
+                } else if(type == "code"){
+                    query = query.Where(p => p.code.Contains(target));
+                } else {
+                    query = query.Where(p => p.name.Contains(target));
+                }
+            }
+            
+            if (!string.IsNullOrEmpty(priceOrder)) {
+                if (priceOrder == "asc") {
+                    query = query.OrderBy(p => p.price);
+                } else {
+                    query = query.OrderByDescending(p => p.price);
+                }
+            }
+
+            var pageTarget = page == 0 ? 1 : page; 
+
+            var list = query.Take(10).Skip((pageTarget -1) * 10).ToList();
+
+            return list;
         }
 
         [HttpGet("{id}")]
@@ -38,7 +61,7 @@ namespace backend.Controllers
             if(product != null) {
                 return Ok( Mapper.Map<ProductsReadMapper>(product) );
             }
-            return NotFound();
+            return NotFound(); 
         }
 
         [HttpPost]
