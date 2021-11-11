@@ -34,7 +34,7 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public ActionResult<ProductsReadMapper> GetOne(int id)
         {
-            var product =  Ok(Context.Products.FirstOrDefault( product => product.id == id));
+            var product =  Context.Products.FirstOrDefault( product => product.id == id);
             if(product != null) {
                 return Ok( Mapper.Map<ProductsReadMapper>(product) );
             }
