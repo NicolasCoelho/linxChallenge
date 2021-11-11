@@ -45,13 +45,26 @@ namespace backend.Controllers
                 } else {
                     query = query.OrderByDescending(p => p.price);
                 }
+            } else {
+                query = query.OrderBy(p => p.id);
             }
 
-            var pageTarget = page == 0 ? 1 : page; 
+            var pageTarget = page == 0 ? 1 : (int)page; 
 
-            var list = query.Take(10).Skip((pageTarget -1) * 10).ToList();
+            double total = (double)Context.Products.Count();
+            double itemsPerPage = (double)10;
 
-            return list;
+            total = (int) Math.Ceiling( (double)(total / itemsPerPage) );
+            total = total == 0 ? 1 : total;
+
+            var items = query
+            .Take((int)itemsPerPage)
+            .Skip((pageTarget - 1) * (int)itemsPerPage)
+            .ToList();
+
+            var response = new { totalPages = total, items };
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]

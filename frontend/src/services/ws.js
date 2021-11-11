@@ -10,11 +10,11 @@ const ws = {
         "sec-fetch-site": "same-origin",
         "sec-gpc": "1"
     }),
-    getProducts: async function() {
+    getProducts: async function(params="") {
         if (this.isMock) {
             return await this.mockProducts()
         } else {
-            return await fetch(`${this.baseUrl}/products/`)
+            return await fetch(`${this.baseUrl}/products?`+params)
             .then(r => r.json())
             .then(response => response)
         }
