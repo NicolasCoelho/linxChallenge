@@ -60,9 +60,13 @@ namespace backend.Controllers
         public ActionResult<ProductsUpdateMapper> ChangeOne(int id, ProductsUpdateMapper mapperProduct)
         { 
 
-            var product = Mapper.Map<Products>(mapperProduct);
+            var product = Context.Products.Find(id);
 
-            Context.Products.Update(product);
+            if(product == null) {
+                return NotFound();
+            }
+
+            Context.Entry(product).CurrentValues.SetValues(mapperProduct);
 
             Context.SaveChanges();
 
