@@ -23,7 +23,7 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Nome</th>
-                                <th scope="col">Preço</th>
+                                <th scope="col" title="Ordenar" class="hover" v-on:click="sort()">Preço <i class="fa" :class="sortClass"></i></th>
                                 <th scope="col">Código</th>
                                 <th scope="col">Ação</th>
                             </tr>
@@ -71,7 +71,12 @@ export default {
                 type: "name",
                 priceOrder: ""
             },
-            searchTimer: null
+            searchTimer: null,
+            sortClass: {
+                "fa-sort": true,
+                "fa-sort-up": false,
+                "fa-sort-down": false
+            }   
         }
     },
     methods: {
@@ -121,7 +126,27 @@ export default {
             this.search()
         },
         previus: function () {
-            
+            this.searchModel.page--
+            this.search()
+        },
+        sort: function() {
+            if (this.searchModel.priceOrder === "") {
+                this.searchModel.priceOrder = "asc"
+                this.sortClass["fa-sort"] = false
+                this.sortClass["fa-sort-up"] = true
+                this.sortClass["fa-sort-down"] =  false
+            } else if(this.searchModel.priceOrder === "asc") {
+                this.searchModel.priceOrder = "desc"
+                this.sortClass["fa-sort"] = false
+                this.sortClass["fa-sort-up"] = false
+                this.sortClass["fa-sort-down"] =  true
+            } else {
+                this.searchModel.priceOrder = ""
+                this.sortClass["fa-sort"] = true
+                this.sortClass["fa-sort-up"] = false
+                this.sortClass["fa-sort-down"] =  false
+            }
+            this.search()
         }
     },
     beforeMount: async function (params) {
@@ -133,5 +158,8 @@ export default {
 <style scoped>
     .center {
         text-align: center;
+    }
+    .hover:hover {
+        cursor: pointer;
     }
 </style>
