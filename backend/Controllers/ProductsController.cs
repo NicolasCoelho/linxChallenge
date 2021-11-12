@@ -7,6 +7,7 @@ using backend.Data;
 using backend.Interfaces;
 using backend.Mappers;
 using backend.Models;
+using backend.Services;
 using backend.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -95,7 +96,11 @@ namespace backend.Controllers
             product.image = filename;
 
             Context.Products.Add(product);
+
             Context.SaveChanges();
+
+            FakeStore fakeStore = new FakeStore();
+            fakeStore.AddProduct(product);
 
             return Ok(product);
         }
@@ -122,6 +127,11 @@ namespace backend.Controllers
 
             Context.SaveChanges();
 
+            product.image = mapperProduct.image;
+
+            FakeStore fakeStore = new FakeStore();
+            fakeStore.UpdateProduct(id, product);
+
             return Ok(mapperProduct);
         }
 
@@ -138,6 +148,9 @@ namespace backend.Controllers
 
             Context.Products.Remove(product);
             Context.SaveChanges();
+
+            FakeStore fakeStore = new FakeStore();
+            fakeStore.DeleteProduct(id);
 
             return NoContent();
         }
