@@ -6,6 +6,9 @@
         <div class="row justify-content-center">
             <div class="col-12 col-lg-5">
                 <form>
+                    <div class="w-50 m-auto">
+                        <img class="image" v-bind:src="productImage">
+                    </div>
                     <div class="input-group mb-3">
                         <label id="name">Nome:</label>
                         <input type="text" required class="form-control" v-model="product.name" id="name" maxlength="100">
@@ -38,20 +41,23 @@ import imageConverter from '../providers/imageConvertet'
 export default {
     data() {
         return {
+            staticUrl: ws.staticUrl,
             isEdit: this.$route.params.id !== undefined,
             product: {
                 id: 0,
                 name: '',
                 code: '',
                 price: '',
-                image: 'https://',
+                image: '',
                 createdAt: ''
-            }
+            },
+            productImage: ""
         }
     },
     beforeMount: async function() {
         if (this.isEdit) {
-            this.product = await ws.getProduct(this.$route.params.id);
+            this.product = await ws.getProduct(this.$route.params.id)
+            this.productImage = `${ws.staticUrl}/images/${this.product.image}`
         }   
     },
     methods: {
@@ -62,8 +68,9 @@ export default {
                 delete payload.id
                 delete payload.createdAt
                 if (this.isEdit) {
-                    await ws.changeProduct(this.product.id, payload)
+                    const response = await ws.changeProduct(this.product.id, payload)
                     alert("Produto Alterado com sucesso")
+                    this.product.image = response.image
                 } else {
                     await ws.postProduct(payload)
                     alert("Produto criado com sucesso")
@@ -77,13 +84,14 @@ export default {
         setImage: async function(event) {
             const file = event.target.files[0];
             if (file) {
-                if (file.size > 4098) {
+                if (file.size > 40980000) {
                     alert("Arquivo grande demais!")
                     event.target.value = ""
                     return
                 }
                 const imageString = await imageConverter.imageToBase64(file)
                 this.product.image = imageString
+                this.productImage = imageString
             }
         }
     }
@@ -94,5 +102,9 @@ export default {
     label {
         width: 100%;
         font-weight: 500;
+    }
+    .image {
+        width: 100%;
+        height: auto;
     }
 </style>

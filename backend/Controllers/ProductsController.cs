@@ -7,6 +7,7 @@ using backend.Data;
 using backend.Interfaces;
 using backend.Mappers;
 using backend.Models;
+using backend.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -87,6 +88,12 @@ namespace backend.Controllers
 
             var product = Mapper.Map<Products>(mapperProduct);
 
+            FilesUtilities myFiles = new FilesUtilities();
+
+            string filename = myFiles.WriteImage(product.image);
+
+            product.image = filename;
+
             Context.Products.Add(product);
             Context.SaveChanges();
 
@@ -102,12 +109,20 @@ namespace backend.Controllers
             if(product == null) {
                 return NotFound();
             }
+            
+            if (mapperProduct.image.Length > 50) {
+                FilesUtilities myFiles = new FilesUtilities();
+
+                string filename = myFiles.WriteImage(mapperProduct.image, product.image);
+
+                mapperProduct.image = filename;
+            }
 
             Context.Entry(product).CurrentValues.SetValues(mapperProduct);
 
             Context.SaveChanges();
 
-            return Ok(product);
+            return Ok(mapperProduct);
         }
 
         [HttpDelete("{id}")]
@@ -117,6 +132,10 @@ namespace backend.Controllers
             if(product == null) {
                 throw new ArgumentNullException(nameof(id));
             }
+            
+            FilesUtilities myFiles = new FilesUtilities();
+            myFiles.DeleteImage(product.image);
+
             Context.Products.Remove(product);
             Context.SaveChanges();
 

@@ -30,6 +30,7 @@ backend/*.sln.docstates
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 backend/*.userprefs
+backend/Static/Images/*
 
 # Build results
 backend/[Dd]ebug/

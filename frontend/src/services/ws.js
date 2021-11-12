@@ -1,5 +1,7 @@
 const ws = {
-    baseUrl: 'http://localhost:5000/api',
+    baseUrl: 'http://localhost:5000',
+    staticUrl: 'http://localhost:5000/static',
+    apiUrl: 'http://localhost:5000/api',
     isMock: false,
     headers: new Headers({
         "accept": "text/plain",
@@ -14,7 +16,7 @@ const ws = {
         if (this.isMock) {
             return await this.mockProducts()
         } else {
-            return await fetch(`${this.baseUrl}/products?`+params)
+            return await fetch(`${this.apiUrl}/products?`+params)
             .then(r => r.json())
             .then(response => response)
         }
@@ -23,7 +25,7 @@ const ws = {
         if (this.isMock) {
             return await this.mockProducts()[0]
         } else {
-            return await fetch(`${this.baseUrl}/products/${id}`, {
+            return await fetch(`${this.apiUrl}/products/${id}`, {
                 headers: this.headers
             })
             .then(r => r.json())
@@ -34,7 +36,7 @@ const ws = {
         if (this.isMock) {
             return await this.mockProducts()[0]
         } else {
-            return await fetch(`${this.baseUrl}/products`, {
+            return await fetch(`${this.apiUrl}/products`, {
                 headers: this.headers,
                 method: "POST", 
                 body: JSON.stringify(payload),
@@ -47,7 +49,7 @@ const ws = {
         if (this.isMock) {
             return await this.mockProducts()[0]
         } else {
-            return await fetch(`${this.baseUrl}/products/${id}`, {
+            return await fetch(`${this.apiUrl}/products/${id}`, {
                 headers: this.headers, 
                 method: "PUT", 
                 body: JSON.stringify(payload)
@@ -60,7 +62,7 @@ const ws = {
         if (this.isMock) {
             return await this.mockProducts()[0]
         } else {
-            return await fetch(`${this.baseUrl}/products/${id}`, {method: "DELETE"})
+            return await fetch(`${this.apiUrl}/products/${id}`, {method: "DELETE"})
             .then(r => r.text())
             .then(response => response)
         }
