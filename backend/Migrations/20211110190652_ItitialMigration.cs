@@ -19,7 +19,7 @@ namespace backend.Migrations
                     code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    createdAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: DateTime.Now)
                 },
                 constraints: table =>
                 {

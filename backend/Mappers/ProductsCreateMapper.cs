@@ -1,12 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace backend.Models
+namespace backend.Mappers
 {
-    public class Products
+    public class ProductsCreateMapper
     {
-        [Key]
-        public int id { get; set; }
-
         [Required]
         public string name { get; set; }
 
@@ -18,8 +15,5 @@ namespace backend.Models
 
         [Required]
         public string image { get; set; }
-
-        [Required]
-        public DateTime createdAt { get; set; }
     }
 }
