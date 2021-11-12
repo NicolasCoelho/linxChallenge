@@ -10,8 +10,13 @@ Em uma aplicação real os seguintes itens devem ser implementados
  - Usar Urls reais para origens (CORS)
 
 Utilizando um banco de dados sem relevância somente para entrega do desafio.
-Mudar string de conexão no arquivo appsettings.json caso queira utilizar DB local.  
- 
+Mudar string de conexão no arquivo appsettings.json caso queira utilizar DB local. 
+
+Executar servidor .NET CORE API e inicialiazar ambiente VueJS
+```
+dotnet run --project ./backend/
+npm run serve --prefix ./frontend/
+```
 
 ## Contextualização do desafio
 Imagine que você está no Projeto “XPTO” e na Sprint atual uma das suas tarefas é criar uma tela que gerencie os dados de um produto. O analista em questão levanta os seguintes requisitos:
